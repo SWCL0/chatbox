@@ -1,0 +1,7 @@
+{
+    "name": "chat-box-project",
+    "version": "0.0.1",
+    "description": "Eerste chat box app",
+    "type": "commonjs",
+    "dependencies": {}
+}
