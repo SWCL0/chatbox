@@ -6,19 +6,48 @@ html, body  {
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-    background: radial-gradient(
-    ellipse at top,
-    white, 
-    black, 
-    transparent);
-    background-repeat: no-repeat;
-    background-position: center;
+    background: rgb(2,8,0);
+    background: linear-gradient(90deg, rgba(2,8,0,1) 0%, rgb(9, 35, 10) 50%, rgb(21, 43, 18) 100%);
     min-height: 100vh;
 }
 
 .textArea {
     padding-bottom: 62px;
 }
+#messages {
+    color: rgb(255, 248, 241);
+    max-width: 400px;
+    overflow-y: auto;
+    list-style-type: none;
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+}
+.message-container {
+    display: flex;
+    margin-bottom: 5px;
+}
+.message {
+    padding: 5px 10px;
+    margin: 10px;
+    margin-bottom: 0px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    font-size: large;
+}
+.message.user {
+    background-color: rgb(21, 43, 18);
+    align-self: flex-start;
+}
+.message.other {
+    background-color: rgba(2,8,0,1);
+    align-self: flex-end;
+}
+
 
 #form { 
     background: rgb(5, 31, 5); 
@@ -56,14 +85,5 @@ body {
     outline: none; 
     color: rgb(255, 248, 241); 
     font-size: large;
-}
-
-#messages { 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 0; 
-}
-#messages > li { 
-    padding: 0.5rem 1rem; 
-    font-size: large;
+    box-sizing: border-box;
 }
