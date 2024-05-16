@@ -6,9 +6,12 @@
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
-    <ul id="messages"></ul>
+    <div class="textArea">
+      <ul id="messages"></ul>      
+    </div>
+
     <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off" placeholder="Message..." /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
