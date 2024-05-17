@@ -30,7 +30,7 @@
                   const message = { text: input.value, time: local };
                   console.log('Sending message:', message);
                   socket.emit('chat message', message);
-                  addMessage(message, 'user-temp');
+                  addMessage(message, 'user-sent');
                   input.value = '';
                 }
             });
@@ -59,7 +59,7 @@
               console.log(messages);
 
 
-              if (type === 'user-temp') {
+              if (type === 'user-sent') {
                 setTimeout(() => {
                   messages.removeChild(messageContainer);
                 }, 1);

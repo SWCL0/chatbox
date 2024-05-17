@@ -22,8 +22,11 @@ body {
     margin: 0; 
     padding: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 .message-container {
+    position: relative;
     padding: 5px 10px;
     margin: 10px;
     margin-bottom: 0px;
@@ -34,7 +37,6 @@ body {
     box-sizing: border-box;
     overflow-wrap: break-word;
     font-size: large;
-    position: relative;
 }
 .message-container:nth-child(odd) {
     background-color: #267132;
