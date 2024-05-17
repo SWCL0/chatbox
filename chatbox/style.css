@@ -11,6 +11,40 @@ body {
     min-height: 100vh;
 }
 
+#navbarForm {
+    height: 40px;
+    background-color: rgb(5, 31, 5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 5px;
+}
+#inputNavbar {
+    border: none; 
+    padding: 5px;
+    margin: 5px; 
+    border-radius: 2rem;  
+    font-size: large;
+    background-color: #0c2a11;  
+    color: rgb(255, 248, 241);
+}
+#navbarForm button {
+    background: #0c2a11; 
+    border: none; 
+    padding: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin: 0.25rem; 
+    border-radius: 3px; 
+    outline: none; 
+    color: rgb(255, 248, 241); 
+    font-size: large;
+    box-sizing: border-box;
+}
+#navbarUsername {
+    color: rgb(255, 248, 241); 
+}
+
 .textArea {
     padding-bottom: 62px;
 }
@@ -53,7 +87,7 @@ body {
 }
 
 
-#form { 
+#formMessage { 
     background: rgb(5, 31, 5); 
     padding: 0.25rem; 
     position: fixed; 
@@ -66,7 +100,7 @@ body {
     backdrop-filter: blur(10px); 
 }
 
-#input { 
+#inputMessage { 
     border: none; 
     padding: 0 1rem; 
     flex-grow: 1; 
@@ -80,7 +114,7 @@ body {
 #input:focus { 
     outline: none; 
 }
-#form > button { 
+#formMessage button { 
     background: #0c2a11; 
     border: none; 
     padding: 0 1rem;

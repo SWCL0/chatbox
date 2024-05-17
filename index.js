@@ -23,11 +23,15 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log('connected');
     socket.on('chat message', (msg) => {
-        console.log('Received message 1:', msg.text);
-        console.log('Received time 1:', msg.time);
-    io.emit('chat message', msg);       
+        io.emit('chat message', msg);       
     });
 });
+io.on('connection', (socket) => {
+    socket.on('username', (usr) => {
+        io.emit('username', usr);
+        console.log(usr);
+    });
+})
 
 server.listen(3000, () => {
     console.log('server is running at http://localhost:3000');

@@ -6,38 +6,66 @@
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
+    <div id="navbarForm">
+      <form id="formNavbar" action="">
+        <input id="inputNavbar" type="text" autocomplete="off" placeholder="Firstname Lastname" /><button>Enter</button>
+      </form>
+      <div id="navbarUsername">
+        <p>Chatting with: </p>
+        <div class="usernameUser"></div>
+      </div>
+    </div>
     <div class="textArea">
       <ul id="messages"></ul>      
     </div>
 
-    <form id="form" action="">
-      <input id="input" autocomplete="off" placeholder="Message..." /><button>Send</button>
+    <form id="formMessage" action="">
+      <input id="inputMessage" autocomplete="off" placeholder="Message..." /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
           document.addEventListener("DOMContentLoaded", function() {
             const socket = io();
 
-            const form = document.getElementById('form');
-            const input = document.getElementById('input');
+            const form = document.getElementById('formMessage');
+            const inputMessage = document.getElementById('inputMessage');
             const messages = document.getElementById('messages');
 
-            form.addEventListener('submit', (e) => {
+            const formNavbar = document.getElementById('formNavbar');
+            const inputNavbar = document.getElementById('inputNavbar');
+            
+            formNavbar.addEventListener('submit', (e) => {
+              e.preventDefault();
+              if (inputNavbar.value) {
+                const username = inputMessage.value;
+                console.log(username);
+                socket.emit('username', username);
+                inputNavbar.value = ''
+              }
+            })
+            socket.on('username', (usr) => {
+              console.log(usr);
+              const username = document.getElementsByClassName('usernameUser');
+              username.innerHTML = usr;
+            })
+
+
+
+            formMessage.addEventListener('submit', (e) => {
                 e.preventDefault();
-                if (input.value) {
+                if (inputMessage.value) {
                   const date = new Date();
                   const local = date.toLocaleTimeString();
-                  const message = { text: input.value, time: local };
-                  console.log('Sending message:', message);
+                  const message = { text: inputMessage.value, time: local };
+                  addMessage(message, 'user-temp');
                   socket.emit('chat message', message);
-                  addMessage(message, 'user-sent');
-                  input.value = '';
+                  inputMessage.value = '';
                 }
             });
-
-            socket.on('chat message', (msg => {
+            socket.on('chat message', (msg) => {
               addMessage(msg, 'other');
-            }));
+            });
+          
 
             function addMessage(message, type) {
               const messageContainer = document.createElement('li');
@@ -50,23 +78,19 @@
               const messageTime = document.createElement('div');
               messageTime.classList.add('time');
               messageTime.textContent = `${message.time}`;
-              console.log('received final time:', messageTime)
 
               messageContainer.appendChild(messageElement);
               messageContainer.appendChild(messageTime);
-              console.log(messageContainer);
               messages.appendChild(messageContainer);
-              console.log(messages);
 
-
-              if (type === 'user-sent') {
+              if (type === 'user-temp') {
                 setTimeout(() => {
                   messages.removeChild(messageContainer);
                 }, 1);
               }
 
               window.scrollTo(0, document.body.scrollHeight);
-            };
+            }
           });
     </script>
   </body>
