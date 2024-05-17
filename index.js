@@ -21,8 +21,11 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);       
+    console.log('connected');
+    socket.on('chat message', (msg, time) => {
+        console.log('Received message:', msg);
+        console.log('Received time:', time);
+    io.emit('chat message', msg, time);       
     });
 });
 

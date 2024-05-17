@@ -25,14 +25,19 @@
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (input.value) {
-                  socket.emit('chat message', input.value);
+                  const date = new Date();
+                  const local = date.toLocaleTimeString();
+                  console.log('Sending message:', input.value);
+                  console.log('Sending time:', local);
+                  socket.emit('chat message', input.value, local);
                   input.value = '';
                 }
             });
 
-            socket.on('chat message', (msg) => {
+            socket.on('chat message', (msg, time) => {
             const item = document.createElement('li');
-            item.textContent = msg;
+            item.classList.add('message');
+            item.textContent = msg + ' ' + time;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
             });
