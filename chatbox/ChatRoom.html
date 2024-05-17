@@ -27,20 +27,46 @@
                 if (input.value) {
                   const date = new Date();
                   const local = date.toLocaleTimeString();
-                  console.log('Sending message:', input.value);
-                  console.log('Sending time:', local);
-                  socket.emit('chat message', input.value, local);
+                  const message = { text: input.value, time: local };
+                  console.log('Sending message:', message);
+                  socket.emit('chat message', message);
+                  addMessage(message, 'user-temp');
                   input.value = '';
                 }
             });
 
-            socket.on('chat message', (msg, time) => {
-            const item = document.createElement('li');
-            item.classList.add('message');
-            item.textContent = msg + ' ' + time;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
-            });
+            socket.on('chat message', (msg => {
+              addMessage(msg, 'other');
+            }));
+
+            function addMessage(message, type) {
+              const messageContainer = document.createElement('li');
+              messageContainer.classList.add('message-container', type);
+
+              const messageElement = document.createElement('div');
+              messageElement.classList.add('message', type);
+              messageElement.textContent = `${message.text}`;
+
+              const messageTime = document.createElement('div');
+              messageTime.classList.add('time');
+              messageTime.textContent = `${message.time}`;
+              console.log('received final time:', messageTime)
+
+              messageContainer.appendChild(messageElement);
+              messageContainer.appendChild(messageTime);
+              console.log(messageContainer);
+              messages.appendChild(messageContainer);
+              console.log(messages);
+
+
+              if (type === 'user-temp') {
+                setTimeout(() => {
+                  messages.removeChild(messageContainer);
+                }, 1);
+              }
+
+              window.scrollTo(0, document.body.scrollHeight);
+            };
           });
     </script>
   </body>

@@ -23,7 +23,7 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
-.message {
+.message-container {
     padding: 5px 10px;
     margin: 10px;
     margin-bottom: 0px;
@@ -34,12 +34,20 @@ body {
     box-sizing: border-box;
     overflow-wrap: break-word;
     font-size: large;
+    position: relative;
 }
-.message:nth-child(odd) {
+.message-container:nth-child(odd) {
     background-color: #267132;
 }
-.message:nth-child(even) {
+.message-container:nth-child(even) {
     background-color: #344938;
+}
+.time {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: x-small;
+    padding: 3px;
 }
 
 
