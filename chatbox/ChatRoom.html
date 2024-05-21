@@ -8,11 +8,10 @@
   <body>
     <div id="navbarForm">
       <form id="formNavbar" action="">
-        <input id="inputNavbar" type="text" autocomplete="off" placeholder="Firstname Lastname" /><button>Enter</button>
+        <input id="inputNavbar" autocomplete="off" placeholder="Firstname Lastname" /><button>Enter</button>
       </form>
-      <div id="navbarUsername">
-        <p>Chatting with: </p>
-        <div class="usernameUser"></div>
+      <div id="navbarChatName">
+        <p>Chat Name: <span class="chatName"></span></p>
       </div>
     </div>
     <div class="textArea">
@@ -37,17 +36,19 @@
             formNavbar.addEventListener('submit', (e) => {
               e.preventDefault();
               if (inputNavbar.value) {
-                const username = inputMessage.value;
-                console.log(username);
-                socket.emit('username', username);
+                const name = inputNavbar.value;
+                console.log(name);
+                socket.emit('name', name);
                 inputNavbar.value = ''
               }
-            })
-            socket.on('username', (usr) => {
+            });
+
+            socket.on('name', (usr) => {
               console.log(usr);
-              const username = document.getElementsByClassName('usernameUser');
-              username.innerHTML = usr;
-            })
+              const name = document.getElementsByClassName('chatName')[0];
+              name.textContent = usr;
+              console.log(name);
+            });
 
 
 

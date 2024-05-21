@@ -27,8 +27,8 @@ io.on('connection', (socket) => {
     });
 });
 io.on('connection', (socket) => {
-    socket.on('username', (usr) => {
-        io.emit('username', usr);
+    socket.on('name', (usr) => {
+        io.emit('name', usr);
         console.log(usr);
     });
 })

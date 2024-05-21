@@ -19,6 +19,9 @@ body {
     justify-content: space-between;
     padding-right: 5px;
 }
+#formNavbar {
+    display: block;
+}
 #inputNavbar {
     border: none; 
     padding: 5px;
@@ -41,7 +44,10 @@ body {
     font-size: large;
     box-sizing: border-box;
 }
-#navbarUsername {
+#navbarChatName {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
     color: rgb(255, 248, 241); 
 }
 
