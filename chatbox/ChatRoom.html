@@ -33,33 +33,43 @@
             const formNavbar = document.getElementById('formNavbar');
             const inputNavbar = document.getElementById('inputNavbar');
             
+            // wanneer de submit knop van de chatname form word ingedrukt
             formNavbar.addEventListener('submit', (e) => {
               e.preventDefault();
+              // check of inputNavbar.value een waarde heeft, als wel
               if (inputNavbar.value) {
                 const name = inputNavbar.value;
-                console.log(name);
+                // emit de naam naar de server
                 socket.emit('name', name);
-                inputNavbar.value = ''
+                // weer leeg maken
+                inputNavbar.value = '';
               }
             });
 
+            // wanneer de reactie met 'name' van de server terug komt
             socket.on('name', (usr) => {
-              console.log(usr);
+              // krijg de div en veranderd de textContent ervan
               const name = document.getElementsByClassName('chatName')[0];
               name.textContent = usr;
-              console.log(name);
             });
 
 
-
+            // wanneer de submit knop van de berichten box word ingedrukt
             formMessage.addEventListener('submit', (e) => {
                 e.preventDefault();
+                // checkt of inputMessage.value een waarde heeft, als wel
                 if (inputMessage.value) {
+                  // maak variable aan
                   const date = new Date();
+                  // maak het locale tijd in text
                   const local = date.toLocaleTimeString();
+                  // voeg de waardes toe aan een const
                   const message = { text: inputMessage.value, time: local };
+                  // roep functie addMessage op om verder af te handelen
                   addMessage(message, 'user-temp');
+                  // emit de chat message naar de server
                   socket.emit('chat message', message);
+                  // maak het weer leeg
                   inputMessage.value = '';
                 }
             });
