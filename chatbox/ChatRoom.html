@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
+    <!-- Navbar ChatName -->
     <div id="navbarForm">
       <form id="formNavbar" action="">
         <input id="inputNavbar" autocomplete="off" placeholder="Firstname Lastname" /><button>Enter</button>
@@ -14,15 +15,18 @@
         <p>Chat Name: <span class="chatName"></span></p>
       </div>
     </div>
+    <!-- Text Area Berichten -->
     <div class="textArea">
       <ul id="messages"></ul>      
     </div>
-
+    <!-- Form  Berichten-->
     <form id="formMessage" action="">
       <input id="inputMessage" autocomplete="off" placeholder="Message..." /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      // wanneer de DOM volledig geladen en parsed is dan voert ie de code uit
+      // dit is sneller dan de load event. Omdat je niet hoeft te wachten op styling, fotos, etc.
           document.addEventListener("DOMContentLoaded", function() {
             const socket = io();
 
@@ -71,27 +75,39 @@
                   inputMessage.value = '';
                 }
             });
+            // chat message response server
             socket.on('chat message', (msg) => {
+              // functie addMessage werkt het verder af
               addMessage(msg);
             });
           
 
-            function addMessage(message, type) {
+            // functie die de berichten in de ul zet
+            function addMessage(message) {
+              // maakt li item aan en geeft het een class='message-container'
               const messageContainer = document.createElement('li');
-              messageContainer.classList.add('message-container', type);
+              messageContainer.classList.add('message-container');
 
+              // maakt een div aan en geeft het een class='message'
               const messageElement = document.createElement('div');
-              messageElement.classList.add('message', type);
+              messageElement.classList.add('message');
+              // voegt de text van message toe aan de div element als textContent
               messageElement.textContent = `${message.text}`;
 
+              // maakt nog een div aan en geeft die een class='time'
               const messageTime = document.createElement('div');
               messageTime.classList.add('time');
+              // voegt de tijd toe aan het element als textContent
               messageTime.textContent = `${message.time}`;
 
+              // voegt messageElement(div) toe aan messageContainer(li)
               messageContainer.appendChild(messageElement);
+              // voegt messageTime(div) toe aan messageContainer(li)
               messageContainer.appendChild(messageTime);
+              // voegt messageContainer(li) toe aan messages(ul)
               messages.appendChild(messageContainer);
 
+              // scrollt de gebruiker naar onder zodat het nieuwe bericht zichtbaar is
               window.scrollTo(0, document.body.scrollHeight);
             }
           });
