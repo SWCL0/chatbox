@@ -28,7 +28,15 @@
       // wanneer de DOM volledig geladen en parsed is dan voert ie de code uit
       // dit is sneller dan de load event. Omdat je niet hoeft te wachten op styling, fotos, etc.
           document.addEventListener("DOMContentLoaded", function() {
-            const socket = io();
+            let counter = 0;
+
+            const socket = io({
+              auth: {
+                serverOffset: 0
+              },
+              ackTimeout: 10000,
+              retries: 3,
+            });
 
             const form = document.getElementById('formMessage');
             const inputMessage = document.getElementById('inputMessage');
@@ -69,21 +77,27 @@
                   const local = date.toLocaleTimeString();
                   // voeg de waardes toe aan een const
                   const message = { text: inputMessage.value, time: local };
+                  // unieke offset
+                  const clientOffset = `${socket.id}-${counter++}`;
                   // emit de chat message naar de server
-                  socket.emit('chat message', message);
+                  socket.emit('chat message', message, clientOffset);
+                  console.log(message, clientOffset + '    socket.emit chat message');
                   // maak het weer leeg
                   inputMessage.value = '';
                 }
             });
             // chat message response server
-            socket.on('chat message', (msg) => {
+            socket.on('chat message', (msg, serverOffset) => {
               // functie addMessage werkt het verder af
+              console.log(msg + '    socket.on chat message');
               addMessage(msg);
+              socket.auth.serverOffset = serverOffset;
             });
           
 
             // functie die de berichten in de ul zet
             function addMessage(message) {
+              console.log(message + '   addMessage')
               // maakt li item aan en geeft het een class='message-container'
               const messageContainer = document.createElement('li');
               messageContainer.classList.add('message-container');
