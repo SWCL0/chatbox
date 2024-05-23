@@ -12,8 +12,8 @@ body {
 }
 .chatDeleteButton {
     position: absolute;
-    left: 50%;
-    right: 50%;
+    left: 45%;
+    right: 55%;
     width: fit-content;
 }
 #navbarForm {
