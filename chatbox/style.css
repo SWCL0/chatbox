@@ -10,7 +10,12 @@ body {
     background: linear-gradient(90deg, rgba(2,8,0,1) 0%, rgb(9, 35, 10) 50%, rgb(21, 43, 18) 100%);
     min-height: 100vh;
 }
-
+.chatDeleteButton {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    width: fit-content;
+}
 #navbarForm {
     height: 40px;
     background-color: rgb(5, 31, 5);

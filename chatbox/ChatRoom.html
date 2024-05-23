@@ -9,8 +9,11 @@
     <!-- Navbar ChatName -->
     <div id="navbarForm">
       <form id="formNavbar" action="">
-        <input id="inputNavbar" autocomplete="off" placeholder="Firstname Lastname" /><button>Enter</button>
+        <input id="inputNavbar" autocomplete="off" placeholder="Chatname..." /><button>Enter</button>
       </form>
+      <div class="chatDeleteButton">
+        <button id="delete-db-button">Delete Chat</button>
+      </div>
       <div id="navbarChatName">
         <p>Chat Name: <span class="chatName"></span></p>
       </div>
@@ -44,6 +47,19 @@
 
             const formNavbar = document.getElementById('formNavbar');
             const inputNavbar = document.getElementById('inputNavbar');
+ 
+            document.getElementById('delete-db-button').addEventListener('click', async () => {
+              try {
+                const response = await fetch('/delete-database', {
+                  method: 'POST'
+                });
+                const message = await response.text();
+                alert(message);
+              } catch (error) {
+                console.error('Error deleting database:', error);
+                alert('Error deleting database');
+              }
+            });
             
             // wanneer de submit knop van de chatname form word ingedrukt
             formNavbar.addEventListener('submit', (e) => {

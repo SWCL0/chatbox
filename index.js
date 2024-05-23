@@ -5,9 +5,13 @@ const serveStatic = require('serve-static');
 const { Server } = require('socket.io');
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
+const fs = require('fs');
+const { exec } = require('child_process');
 
-console.log('Starting server setup...');
+console.log('Starting server setup process...');
 
+// functie die bepaalde characters verwijderd zodat het opgeslagen kan worden in database
+// Anders krijg je een error
 function escapeHtml(unsafe) {
     if (typeof unsafe === 'string') {
         return unsafe.replace(/[&<"'>]/g, function(match) {
@@ -74,14 +78,31 @@ async function main() {
     app.get('/', (req, res) => {
         // stuurt file als response en joint de hele path als een string
         res.sendFile(join(__dirname, 'chatbox', 'ChatRoom.html'));
-        console.log('Opening file...')
     });
 
-    // start server op port 3000
-    server.listen(3000, () => {
-        // als de server goed is gestart zal bericht hieronder gelogged worden
-        console.log(`server is running at http://localhost:3000`);
+    app.post('/delete-database', (req, res) => {
+        const dbFilePath = join(__dirname, 'chat.db');
+        fs.unlink(dbFilePath, (err) => {
+            if (err) {
+                console.log('Error deleting database file:', err);
+                return res.status(500).send('Error deleting database file')
+            }
+            console.log('Database file deleted successfully');
+            // server herstarten na het verwijderen van de database file
+        });
     });
+
+    console.log('Starting server...');
+    startServer();
+
+    function startServer() {
+        // start server op port 3000
+        server.listen(3000, () => {
+            // als de server goed is gestart zal bericht hieronder gelogged worden
+            console.log(`server is running at http://localhost:3000`);
+        });
+    }
+
     
     console.log('Setting up socket.io connection...');
     // event listener voor connectie event op object io (io = server - socket = client connectie)
