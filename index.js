@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 const fs = require('fs');
-const { exec } = require('child_process');
+var socketlist = [];
 
 console.log('Starting server setup process...');
 
@@ -85,9 +85,11 @@ async function main() {
         fs.unlink(dbFilePath, (err) => {
             if (err) {
                 console.log('Error deleting database file:', err);
-                return res.status(500).send('Error deleting database file')
             }
             console.log('Database file deleted successfully');
+            setTimeout(() => {
+                io.close();
+            }, 1000);
             // server herstarten na het verwijderen van de database file
         });
     });
@@ -107,6 +109,7 @@ async function main() {
     console.log('Setting up socket.io connection...');
     // event listener voor connectie event op object io (io = server - socket = client connectie)
     io.on('connection', async (socket) => {
+        socketlist.push(socket);
         console.log('New connection established');
         try {
             // event listener voor chat message event op object socket
@@ -146,6 +149,10 @@ async function main() {
                     console.error('Error sending previous messages:', e);
                 }
             }
+            socket.on('close', function () {
+                console.log('Socket closed');
+                socketlist.splice(socketlist.indexOf(socket), 1);
+            });
         
             // Chatnaam event listener
             socket.on('name', (usr) => {
